@@ -1,137 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz ONIA 2024 - Inteligência Artificial</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        header {
+            background-color: #0d6efd;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .question-card {
+            padding: 20px;
+            border-radius: 8px;
+            background: white;
+            margin-top: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Quiz ONIA 2024 – Inteligência Artificial</h1>
+    </header>
+
+    <div class="container">
+        <div id="quiz-container"></div>
+        <button id="finishBtn" class="btn btn-primary mt-3">Finalizar Quiz</button>
+        <div id="result"></div>
+    </div>
+
+<script>
 const questions = [
     {
-        id: 1,
-        question: "Algumas coisas acontecem devido à inteligência, outras acontecem por acaso. Qual das situações representa o acaso?",
-        options: ["Jogar xadrez", "Resolver um problema de matemática", "Lançar dados", "Programar um robô", "Escrever um texto"],
-        correct: 2,
-        explanation: "O lançamento de dados é um evento aleatório, sem influência de inteligência para determinar o resultado."
-    },
-    {
-        id: 2,
-        question: "Qual das situações representa o uso de Inteligência Artificial?",
-        options: ["Calculadora realizando contas", "Relógio marcando as horas", "Porta automática abrindo", "Sistema de reconhecimento facial", "Semáforo simples"],
-        correct: 3,
-        explanation: "Reconhecimento facial exige aprendizado de padrões visuais. Os outros exemplos são automação simples."
-    },
-    {
-        id: 3,
-        question: "Qual alternativa representa evolução natural, sem intervenção humana?",
-        options: ["Cachorro doméstico", "Trigo agrícola", "Borboleta selvagem", "Cavalo de corrida", "Rosa híbrida"],
-        correct: 2,
-        explanation: "Borboletas selvagens evoluíram por seleção natural; as demais passaram por seleção artificial humana."
-    },
-    {
-        id: 4,
-        question: "Em ordem crescente de número de lados: triângulo, quadrado, pentágono e hexágono. Qual é a sequência correta?",
-        options: ["A, C, E, B", "C, A, B, E", "A, C, E, B", "B, E, C, A", "C, B, A, E"],
-        correct: 0,
-        explanation: "Triângulo (3), Quadrado (4), Pentágono (5), Hexágono (6)."
-    },
-    {
-        id: 5,
-        question: "Uma IA analisa formas coloridas. Em qual alternativa aparece variação de tonalidade da mesma cor (gradiente)?",
-        options: ["Todas com cor sólida", "Somente uma com gradiente", "Nenhuma apresenta gradiente", "Há variação de tonalidade em apenas 1 delas", "Todas possuem gradiente"],
-        correct: 3,
-        explanation: "A característica distinta é a variação de claridade da cor, uma pista usada em reconhecimento visual."
-    },
-    {
-        id: 6,
-        question: "Em: 3, 5, 7, 9, 11, 13, 15, ?, 19 — qual número falta?",
-        options: ["11", "13", "15", "17", "19"],
-        correct: 3,
-        explanation: "Sequência de números ímpares consecutivos. Falta o número 17."
-    },
-    {
-        id: 7,
-        question: "Qual afirmação é correta sobre IA?",
+        question: "O que é Inteligência Artificial?",
         options: [
-            "Toda automação é IA",
-            "IA e automação exigem o mesmo nível de inteligência",
-            "Automação simples não é IA",
-            "Somente processos manuais exigem inteligência",
-            "IA só existe quando há robôs"
+            "Um tipo de calculadora comum.",
+            "A capacidade de máquinas realizarem tarefas inteligentes.",
+            "Somente robôs com aparência humana.",
+            "Qualquer programa de computador simples."
         ],
-        correct: 2,
-        explanation: "IA aprende e toma decisões. Automação apenas segue instruções fixas, sem aprendizado."
+        correct: 1
     },
     {
-        id: 8,
-        question: "Talos, da mitologia grega, era um autômato. O que isso tem em comum com IA moderna?",
+        question: "Qual é um exemplo de uso de IA?",
         options: [
-            "Aprendia com experiência",
-            "Era programado para tarefas específicas",
-            "Tinha emoções reais",
-            "Criava outros autômatos",
-            "Podia decidir como um humano"
+            "Lâmpada comum",
+            "Reconhecimento facial",
+            "Pilha alcalina",
+            "Martelo"
         ],
-        correct: 1,
-        explanation: "Talos executava tarefas pré-programadas, semelhante a sistemas artificiais sem consciência."
+        correct: 1
     },
     {
-        id: 9,
-        question: "Em um cubo 3x3x3 feito por 27 cubinhos, quantos cubinhos ficam totalmente escondidos dentro da estrutura?",
-        options: ["1", "2", "3", "4", "5"],
-        correct: 0,
-        explanation: "Somente o cubo central não possui faces expostas — apenas 1 é totalmente interno."
-    },
-    {
-        id: 10,
-        question: "Qual das palavras NÃO pode ser formada em um grafo se só é permitido seguir o sentido das setas?",
-        options: ["dososo", "papapososo", "de", "papapapos", "dosososo"],
-        correct: 3,
-        explanation: "Essa sequência exige um caminho que não existe no grafo, quebrando a direção das setas."
-    },
-    {
-        id: 11,
-        question: "Sobre algoritmos DFS (profundidade) e BFS (largura), qual classificação está correta?",
+        question: "O que significa 'aprendizado de máquina'?",
         options: [
-            "I-BFS, II-DFS, III-BFS",
-            "I-DFS, II-BFS, III-DFS",
-            "I-DFS, II-DFS, III-BFS",
-            "I-BFS, II-BFS, III-DFS",
-            "Todas são DFS"
+            "Máquinas que aprendem sozinhas analisando dados.",
+            "Computador que liga e desliga sozinho.",
+            "Robô que fala como humano.",
+            "Programa que funciona sem energia."
         ],
-        correct: 0,
-        explanation: "BFS percorre vizinhos primeiro; DFS aprofunda em um caminho antes de voltar."
-    },
-    {
-        id: 12,
-        question: "Bebê aprende 'papai' com dados limitados. O que está correto? I-Fez uma associação possível II-IA reconheceria rostos III-O erro ocorre pela falta de exemplos",
-        options: ["I e III", "I e II", "Nenhuma", "Apenas I", "II e III"],
-        correct: 0,
-        explanation: "O bebê generalizou com poucas informações. Exatamente como IA mal treinada."
-    },
-    {
-        id: 13,
-        question: "Um robô parte de F9 para o sul. Frente 3 blocos, direita 2, ré 5, esquerda 1. Qual posição final?",
-        options: ["H2", "I5", "I8", "J4", "G3"],
-        correct: 1,
-        explanation: "Após seguir os deslocamentos no plano, o robô finaliza em I5."
-    },
-    {
-        id: 14,
-        question: "Ordenando 'cdab' com trocas de pares adjacentes (Bubble Sort), qual sequência completa?",
-        options: [
-            "cdab → cadb → acdb → acbd → abcd",
-            "cdab → dcba → badc → abcd",
-            "cdab → acdb → abcd",
-            "cdab → cadb → acdb → abcd",
-            "cdab → adcb → abcd"
-        ],
-        correct: 0,
-        explanation: "Cada troca envolve vizinhos e reinício até ordenar tudo."
-    },
-    {
-        id: 15,
-        question: "Qual é o ponto central do argumento do Quarto Chinês de Searle?",
-        options: [
-            "Máquinas podem sentir emoções",
-            "Seguir regras não garante compreensão real",
-            "Todo programa entende linguagem",
-            "Computadores são conscientes",
-            "Linguagem só existe com fala"
-        ],
-        correct: 1,
-        explanation: "Searle defende que manipular símbolos não significa realmente entender significado."
+        correct: 0
     }
 ];
+
+function loadQuiz() {
+    const container = document.getElementById("quiz-container");
+    container.innerHTML = "";
+
+    questions.forEach((q, index) => {
+        const card = document.createElement("div");
+        card.className = "question-card";
+
+        let html = `<h5>${index + 1}. ${q.question}</h5>`;
+        q.options.forEach((opt, i) => {
+            html += `
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="q${index}" value="${i}">
+                    <label class="form-check-label">${opt}</label>
+                </div>
+            `;
+        });
+
+        card.innerHTML = html;
+        container.appendChild(card);
+    });
+}
+
+document.getElementById("finishBtn").addEventListener("click", () => {
+    let score = 0;
+
+    questions.forEach((q, index) => {
+        const selected = document.querySelector(`input[name="q${index}"]:checked`);
+        if (selected && parseInt(selected.value) === q.correct) {
+            score++;
+        }
+    });
+
+    document.getElementById("result").innerHTML =
+        `<div class="alert alert-success">Você acertou ${score} de ${questions.length} perguntas!</div>`;
+});
+
+loadQuiz();
+</script>
+
+</body>
+</html>
