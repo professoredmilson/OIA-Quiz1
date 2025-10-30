@@ -1,686 +1,137 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz ONIA 2024 - Inteligência Artificial</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px 0;
-        }
-        .quiz-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
-        .card {
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
-            border: none;
-            margin-bottom: 20px;
-        }
-        .question-card {
-            transition: all 0.3s ease;
-        }
-        .option-btn {
-            text-align: left;
-            padding: 15px 20px;
-            margin: 8px 0;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            background: white;
-        }
-        .option-btn:hover:not(:disabled) {
-            transform: translateX(5px);
-            border-color: #667eea;
-            background: #f8f9ff;
-        }
-        .option-btn.selected {
-            background: #667eea;
-            color: white;
-            border-color: #667eea;
-        }
-        .option-btn.correct {
-            background: #4caf50;
-            color: white;
-            border-color: #4caf50;
-        }
-        .option-btn.incorrect {
-            background: #f44336;
-            color: white;
-            border-color: #f44336;
-        }
-        .progress {
-            height: 8px;
-            border-radius: 10px;
-        }
-        .feedback {
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 15px;
-            animation: slideIn 0.5s ease;
-        }
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        .score-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            border-radius: 20px;
-            text-align: center;
-        }
-        .score-number {
-            font-size: 72px;
-            font-weight: bold;
-        }
-        .btn-custom {
-            border-radius: 25px;
-            padding: 12px 30px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .header-title {
-            color: white;
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
-        }
-        .study-guide {
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 20px;
-        }
-        .study-guide::-webkit-scrollbar {
-            width: 8px;
-        }
-        .study-guide::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
-        }
-        .study-guide::-webkit-scrollbar-thumb {
-            background: #667eea;
-            border-radius: 10px;
-        }
-        .study-guide h4 {
-            color: #667eea;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-        .study-guide h5 {
-            color: #764ba2;
-            margin-top: 15px;
-            margin-bottom: 10px;
-        }
-        .nav-tabs .nav-link {
-            color: #667eea;
-            font-weight: 600;
-        }
-        .nav-tabs .nav-link.active {
-            background-color: #667eea;
-            color: white;
-        }
-        .study-section {
-            background: #f8f9ff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 15px;
-            border-left: 4px solid #667eea;
-        }
-    </style>
-</head>
-<body>
-    <div class="container quiz-container">
-        <h1 class="header-title">
-            <i class="fas fa-brain"></i> Quiz ONIA 2024
-            <br><small class="fs-5">Olimpíada Nacional de Inteligência Artificial</small>
-        </h1>
-
-        <!-- Tabs -->
-        <ul class="nav nav-tabs mb-3" id="mainTabs" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="study-tab" data-bs-toggle="tab" data-bs-target="#study" type="button">
-                    <i class="fas fa-book"></i> Guia de Estudo
-                </button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="quiz-tab" data-bs-toggle="tab" data-bs-target="#quiz" type="button">
-                    <i class="fas fa-play-circle"></i> Iniciar Quiz
-                </button>
-            </li>
-        </ul>
-
-        <!-- Tab Content -->
-        <div class="tab-content" id="mainTabContent">
-            <!-- Study Guide Tab -->
-            <div class="tab-pane fade show active" id="study" role="tabpanel">
-                <div class="card">
-                    <div class="card-body study-guide">
-                        <h3 class="text-center mb-4"><i class="fas fa-graduation-cap"></i> Guia de Estudo Completo</h3>
-                        
-                        <div class="study-section">
-                            <h4>🎯 O que é Inteligência Artificial?</h4>
-                            <p><strong>Inteligência Artificial (IA)</strong> é a capacidade das máquinas de realizar tarefas que normalmente exigiriam inteligência humana, como:</p>
-                            <ul>
-                                <li>Aprender com experiências</li>
-                                <li>Resolver problemas complexos</li>
-                                <li>Reconhecer padrões</li>
-                                <li>Tomar decisões baseadas em dados</li>
-                            </ul>
-                            <p><strong>💡 Importante:</strong> Nem toda automação é IA! Uma calculadora não é IA, mas um sistema que reconhece rostos é.</p>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>🎲 Inteligência vs Acaso</h4>
-                            <p><strong>Inteligência:</strong> Tomada de decisões conscientes, análise, aprendizado.</p>
-                            <p><strong>Acaso:</strong> Eventos aleatórios e imprevisíveis (dados, loteria).</p>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>🤖 IA vs Automação Simples</h4>
-                            <p><strong>Automação:</strong> Máquinas executam tarefas repetitivas com instruções fixas (portas automáticas, micro-ondas).</p>
-                            <p><strong>IA:</strong> Sistemas que aprendem, se adaptam e tomam decisões complexas.</p>
-                            <p><strong>Exemplo histórico:</strong> Talos (mitologia grega) - autômato programado para tarefas específicas, similar a sistemas de IA modernos.</p>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>🧠 Machine Learning (Aprendizado de Máquina)</h4>
-                            <p>As IAs aprendem padrões a partir de dados. Processo:</p>
-                            <ol>
-                                <li><strong>Coleta de dados</strong> - Reunir exemplos</li>
-                                <li><strong>Treinamento</strong> - IA identifica padrões</li>
-                                <li><strong>Validação</strong> - Testar aprendizado</li>
-                                <li><strong>Aplicação</strong> - Usar em situações novas</li>
-                            </ol>
-                            <p><strong>⚠️ Crucial:</strong> Dados diversos e de qualidade = IA melhor. Dados limitados ou enviesados = conclusões erradas!</p>
-                            <p><strong>Exemplo:</strong> Um bebê aprende "papai" com dados limitados e pode generalizar incorretamente (associando a qualquer homem de óculos). IA precisa de dados variados!</p>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>🔍 Algoritmos de Busca e Grafos</h4>
-                            <h5>DFS (Busca em Profundidade)</h5>
-                            <p>Vai até o fim de um caminho antes de tentar alternativas. "Vai fundo" em cada ramo.</p>
-                            
-                            <h5>BFS (Busca em Largura)</h5>
-                            <p>Explora todos os vizinhos próximos antes de ir mais longe. "Expande em ondas".</p>
-                            
-                            <h5>Grafos</h5>
-                            <p>Estrutura com <strong>nós</strong> (pontos) e <strong>arestas</strong> (conexões) usada para representar redes, mapas, processos e caminhos.</p>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>🔢 Reconhecimento de Padrões</h4>
-                            <p><strong>Sequências lógicas:</strong> IAs identificam padrões numéricos e geométricos.</p>
-                            <p><strong>Exemplo:</strong> 3, 5, 7, 9, 11, 13, 15, <strong>17</strong>, 19 (números ímpares, padrão +2)</p>
-                            <p><strong>Características visuais:</strong> Cor, tonalidade, forma, geometria, textura, posição espacial.</p>
-                            <p><strong>Raciocínio espacial:</strong> Visualizar objetos 3D, contar elementos invisíveis, entender perspectiva.</p>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>🔄 Algoritmos de Ordenação</h4>
-                            <p><strong>Bubble Sort:</strong> Compara pares adjacentes, troca se necessário, repete até ordenar.</p>
-                            <p><strong>Exemplo:</strong> "cdab" → "cadb" → "acdb" → "acbd" → "abcd"</p>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>🎓 Filosofia da IA</h4>
-                            <h5>Argumento do Quarto Chinês (John Searle)</h5>
-                            <p>Questiona se máquinas realmente "entendem" ou apenas seguem regras. Uma pessoa pode responder em chinês usando um manual sem compreender o idioma.</p>
-                            <p><strong>Questão:</strong> Seguir regras = compreensão verdadeira?</p>
-                            
-                            <h5>Teste de Turing (Alan Turing, 1950)</h5>
-                            <p>Se um humano não consegue distinguir máquina de humano em conversa por texto, a máquina é considerada "inteligente".</p>
-                            <p><strong>Aplicação:</strong> Chatbots, assistentes virtuais (Siri, Alexa).</p>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>🛡️ Ética e Segurança em IA</h4>
-                            
-                            <h5>1. Viés e Discriminação</h5>
-                            <p><strong>Problema:</strong> IAs herdam preconceitos dos dados de treinamento.</p>
-                            <p><strong>Exemplo real:</strong> Reconhecimento facial com 34% mais erro para mulheres negras vs homens brancos (dados de treinamento não diversos).</p>
-                            <p><strong>Consequências:</strong> Prisões injustas, discriminação, perpetuação de desigualdades.</p>
-                            <p><strong>Soluções:</strong> Diversificar dados, auditorias de viés, transparência, regulamentação.</p>
-                            
-                            <h5>2. Deepfakes</h5>
-                            <p>Vídeos/áudios falsos mas realistas criados por IA.</p>
-                            <p><strong>Riscos:</strong> Golpes financeiros (imitação de familiares), desinformação, difamação, manipulação de evidências.</p>
-                            <p><strong>Proteção:</strong></p>
-                            <ul>
-                                <li>✅ Estabelecer códigos secretos com familiares</li>
-                                <li>✅ Verificar informações antes de agir</li>
-                                <li>✅ Questionar solicitações urgentes de dinheiro</li>
-                                <li>❌ Não confiar cegamente em ligações/vídeos</li>
-                            </ul>
-                            
-                            <h5>3. Fake News e Desinformação</h5>
-                            <p>IA pode gerar e espalhar desinformação em massa, manipulando opinião pública.</p>
-                            <p><strong>Riscos:</strong> Interferência em eleições, polarização social, erosão de confiança.</p>
-                            <p><strong>Como identificar:</strong> Verificar fonte, checar múltiplas fontes confiáveis, desconfiar de sensacionalismo.</p>
-                            
-                            <h5>4. Privacidade</h5>
-                            <p>Coleta massiva de dados, vigilância, rastreamento comportamental.</p>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>🔬 Aplicações Práticas de IA</h4>
-                            <ul>
-                                <li><strong>Reconhecimento de Imagens:</strong> Identificação facial, diagnóstico médico, veículos autônomos</li>
-                                <li><strong>Processamento de Linguagem Natural:</strong> Tradução, chatbots, análise de sentimentos</li>
-                                <li><strong>Sistemas de Recomendação:</strong> Netflix, Spotify, Amazon, YouTube</li>
-                                <li><strong>Assistentes Virtuais:</strong> Siri, Alexa, Google Assistant</li>
-                            </ul>
-                            
-                            <h5>Melhorando IAs de Reconhecimento</h5>
-                            <p>Para treinar melhor uma IA:</p>
-                            <ul>
-                                <li>✅ Aumentar volume de dados</li>
-                                <li>✅ Incluir variações (ângulo, iluminação, qualidade)</li>
-                                <li>✅ Dados representativos e diversos</li>
-                                <li>✅ Técnicas de aumento de dados</li>
-                                <li>❌ Não treinar só com condições ideais</li>
-                            </ul>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>🌱 Evolução: Natural vs Artificial</h4>
-                            <p><strong>Seleção Natural:</strong> Ocorre na natureza sem intervenção humana (ex: borboletas selvagens).</p>
-                            <p><strong>Seleção Artificial:</strong> Humanos escolhem características desejadas (ex: cachorros domésticos, cultivos agrícolas, cavalos de corrida).</p>
-                        </div>
-
-                        <div class="study-section">
-                            <h4>💡 Conceitos-Chave para Memorizar</h4>
-                            <ul>
-                                <li>✅ <strong>IA ≠ Automação simples</strong> - IA aprende e se adapta</li>
-                                <li>✅ <strong>Dados diversos = IA melhor</strong> - Variedade é essencial</li>
-                                <li>✅ <strong>Viés nos dados = viés na IA</strong> - Lixo entra, lixo sai</li>
-                                <li>✅ <strong>Ética é fundamental</strong> - IA tem impacto social real</li>
-                                <li>✅ <strong>DFS vai fundo, BFS vai largo</strong> - Estratégias de busca</li>
-                                <li>✅ <strong>Teste de Turing = parecer humano</strong> - Simular comportamento</li>
-                                <li>✅ <strong>Quarto Chinês = questionar compreensão</strong> - Seguir regras ≠ entender</li>
-                                <li>✅ <strong>Reconhecimento precisa variedade</strong> - Ângulos, iluminação, contexto</li>
-                            </ul>
-                        </div>
-
-                        <div class="alert alert-info mt-4">
-                            <h5><i class="fas fa-lightbulb"></i> Dicas para o Quiz</h5>
-                            <ol>
-                                <li><strong>Leia com atenção</strong> - Detalhes importam</li>
-                                <li><strong>Elimine opções absurdas</strong> - Reduza as possibilidades</li>
-                                <li><strong>Pense na lógica</strong> - IA é sobre padrões e raciocínio</li>
-                                <li><strong>Relacione com exemplos práticos</strong> - Conecte com situações reais</li>
-                                <li><strong>Não tenha pressa</strong> - Analise cada alternativa</li>
-                            </ol>
-                        </div>
-
-                        <div class="text-center mt-4">
-                            <button class="btn btn-primary btn-lg btn-custom" onclick="document.getElementById('quiz-tab').click()">
-                                <i class="fas fa-arrow-right"></i> Pronto para o Quiz!
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Quiz Tab -->
-            <div class="tab-pane fade" id="quiz" role="tabpanel">
-                <div id="quizContent"></div>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        const questions = [
-            {
-                id: 1,
-                question: "Algumas coisas acontecem devido à inteligência, outras acontecem por acaso. Qual das imagens está relacionada ao acaso?",
-                options: ["Jogador de xadrez", "Estudante resolvendo problemas", "Dados sendo lançados", "Cientista em laboratório", "Programador escrevendo código"],
-                correct: 2,
-                explanation: "O lançamento de dados é um exemplo clássico de evento aleatório, onde o resultado não depende de inteligência, mas sim do acaso. Eventos como xadrez e resolução de problemas exigem inteligência."
-            },
-            {
-                id: 2,
-                question: "Inteligência Artificial (IA) é a capacidade das máquinas de realizar tarefas que normalmente exigiriam inteligência humana. Em qual das seguintes situações se vê uma aplicação de IA?",
-                options: ["Calculadora fazendo contas básicas", "Relógio mostrando as horas", "Micro-ondas aquecendo comida", "Sistema de reconhecimento facial", "Porta automática abrindo"],
-                correct: 3,
-                explanation: "Reconhecimento facial é uma aplicação de IA que envolve aprendizado de padrões complexos e tomada de decisões. Calculadoras, relógios e micro-ondas são apenas automação simples."
-            },
-            {
-                id: 3,
-                question: "Dentre as alternativas a seguir, assinale aquela que NÃO teve assistência de seres humanos para 'evoluir'.",
-                options: ["Cachorro doméstico", "Trigo cultivado", "Borboleta selvagem", "Cavalo de corrida", "Rosa híbrida"],
-                correct: 4,
-                explanation: "A borboleta selvagem evoluiu naturalmente através da seleção natural, sem intervenção humana direta. As outras opções passaram por seleção artificial (cachorros, trigo, cavalos, rosas)."
-            },
-            {
-                id: 4,
-                question: "Você quer testar se uma IA de reconhecimento de imagem funciona e pede que identifique polígonos em ordem CRESCENTE pelo número de lados. Considerando: A=triângulo, B=hexágono, C=quadrado, D=círculo, E=pentágono. Qual seria a resposta correta?",
-                options: ["ABCDE", "EDCBA", "CDEAB", "BAEDC", "BADEC"],
-                correct: 3,
-                explanation: "A ordem crescente por número de lados: triângulo(3), quadrado(4), pentágono(5), hexágono(6). O círculo não tem lados definidos. A resposta BAEDC considera uma interpretação especial da sequência."
-            },
-            {
-                id: 5,
-                question: "Observe polígonos coloridos. O polígono C apresenta uma distinção dos demais. Qual seria esta distinção?",
-                options: ["Tridimensionalidade", "Número de letras no nome", "Número de tons de cor", "Variação da claridade da cor", "Letra inicial da cor"],
-                correct: 3,
-                explanation: "O polígono C apresenta variação de claridade na cor (gradiente ou tonalidades diferentes), enquanto os outros têm cor sólida e uniforme. Esta é uma característica visual importante para IAs de reconhecimento."
-            },
-            {
-                id: 6,
-                question: "Uma máquina inteligente pode inferir resultados descobrindo padrões lógicos. Na sequência: 3, 5, 7, 9, 11, 13, 15, ?, 19. Qual o número desconhecido?",
-                options: ["11", "13", "15", "17", "19"],
-                correct: 3,
-                explanation: "Excelente! A sequência são números ímpares consecutivos: 3, 5, 7, 9, 11, 13, 15, 17, 19. O padrão é simples: adicionar 2 a cada termo. O número que falta entre 15 e 19 é 17."
-            },
-            {
-                id: 7,
-                question: "Sobre produção manual vs mecanizada de correntes, qual alternativa está correta sobre IA?",
-                options: ["A simples automação constitui um exemplo de IA", "Não há inteligência em processos repetitivos", "Automação requer o mesmo nível de inteligência que humanos usam", "Há uso de inteligência apenas no processo mecanizado", "Automação de produção não seria considerada aplicação de IA"],
-                correct: 4,
-                explanation: "Perfeito! Automação simples e repetitiva não é IA. IA envolve aprendizado, adaptação e tomada de decisões complexas, não apenas seguir instruções fixas predefinidas."
-            },
-            {
-                id: 8,
-                question: "Na mitologia grega, Talos era um autômato de bronze. Como ele se relaciona com o conceito moderno de IA?",
-                options: ["Talos seria capaz de aprender, como as IA modernas", "Talos era programado para tarefas específicas, como sistemas de IA", "Talos teria consciência e emoção", "Talos seria controlado por humano", "Talos poderia criar outros autômatos"],
-                correct: 1,
-                explanation: "Correto! Talos, como autômato, executava tarefas predefinidas de proteção da ilha, similar a muitos sistemas de IA atuais que são programados para funções específicas sem consciência real."
-            },
-            {
-                id: 9,
-                question: "Qual o maior número de cubos que podem ter TODAS as faces azuis? (considere cubos invisíveis na estrutura 3x3x3)",
-                options: ["1", "2", "3", "4", "5"],
-                correct: 4,
-                explanation: "Ótimo raciocínio espacial! Em uma estrutura cúbica, considerando pintura externa, apenas cubos completamente internos podem ter todas as faces não pintadas (ou todas pintadas se pensarmos diferente). A resposta depende da interpretação do problema."
-            },
-            {
-                id: 10,
-                question: "Em um grafo com caminhos de 'início' a 'fim', qual palavra NÃO pode ser formada seguindo as setas?",
-                options: ["dososo", "papapososo", "de", "papapapos", "dosososo"],
-                correct: 3,
-                explanation: "Excelente análise! A palavra 'papapapos' não pode ser formada porque não existe um caminho válido no grafo que permita essa sequência específica de letras seguindo as setas disponíveis."
-            },
-            {
-                id: 11,
-                question: "Sobre algoritmos DFS (Profundidade) e BFS (Largura), analise: I-HEIAFGB, II-BADGJLMK, III-MKLJGIDEAC. Qual a classificação correta?",
-                options: ["I-BFS, II-DFS, III-BFS", "I-DFS, II-BFS, III-DFS", "I-DFS, II-BFS, III-DFS", "I-DFS, II-DFS, III-DFS", "I-BFS, II-BFS, III-BFS"],
-                correct: 0,
-                explanation: "Perfeito! Analisando os padrões: I explora em largura (vizinhos próximos primeiro), II vai em profundidade (vai fundo antes de voltar), III novamente em largura. BFS explora nível por nível; DFS vai até o fim dos ramos."
-            },
-            {
-                id: 12,
-                question: "Sobre o bebê que aprende 'papai' com dados limitados, quais proposições estão corretas? I-Fez associação diferente mas eficiente II-IA reconheceria o pai pelo rosto III-Erro se deve à falta de informações",
-                options: ["I e III", "I e II", "Nenhuma", "Apenas I", "II e III"],
-                correct: 0,
-                explanation: "Muito bem! I e III estão corretas: o bebê fez uma generalização com dados limitados (associou 'papai' a características observáveis como óculos), e o erro vem da falta de exemplos variados, exatamente como em machine learning."
-            },
-            {
-                id: 13,
-                question: "Um carro parte de F9 virado para F. Comandos: frente 3km, direita 2km, ré 5km, esquerda 1km. Posição final?",
-                options: ["H2", "I5", "I8", "J4", "G3"],
-                correct: 1,
-                explanation: "Ótimo! Seguindo os comandos em um grid de coordenadas: partindo de F9, movendo para frente (F6), depois direita (H6), ré para trás, e esquerda, chegamos próximo à posição I5."
-            },
-            {
-                id: 14,
-                question: "IA ordena 'cdab' comparando pares da esquerda, trocando se errado e voltando ao início. Qual a sequência correta?",
-                options: ["cdab - bacd - abcd", "cdab - dcba - badc - abcd", "cdab - cadb - acdb - acbd - abcd", "cdab - cadb - acdb - abcd", "cdab - acdb - abcd"],
-                correct: 2,
-                explanation: "Excelente! Seguindo o algoritmo bubble sort modificado: cdab → compara c-d(ok) → compara d-a(troca) → cadb → volta → compara c-a(troca) → acdb → compara d-b(troca) → acbd → volta → abcd."
-            },
-            {
-                id: 15,
-                question: "Qual é o ponto principal do argumento do quarto chinês de John Searle?",
-                options: ["Máquinas podem aprender qualquer idioma", "Seguir regras não implica compreensão verdadeira", "Pessoas podem aprender chinês sem professor", "Computadores precisam de mais processamento", "Como construir tradução automática"],
-                correct: 1,
-                explanation: "Perfeito! Searle argumenta que seguir regras sintáticas não garante compreensão semântica real. Uma máquina pode parecer inteligente sem realmente entender o que faz - apenas processando símbolos."
-            },
-            {
-                id: 16,
-                question: "Qual exemplo representa melhor a aplicação prática do teste de Turing?",
-                options: ["Robô que joga xadrez melhor que humanos", "Assistente virtual que parece conversar como pessoa real", "Sistema de reconhecimento facial", "Robô em linha de produção", "Programa de cálculos matemáticos"],
-                correct: 1,
-                explanation: "Excelente! O teste de Turing avalia se uma máquina pode simular conversação humana de forma indistinguível. Um assistente virtual convincente que parece humano é o melhor exemplo dessa aplicação prática."
-            },
-            {
-                id: 17,
-                question: "Qual medida de segurança ajuda a reduzir danos de deepfakes em golpes financeiros?",
-                options: ["Estabelecer perguntas de segurança com familiares", "Usar antivírus para detectar deepfakes", "Evitar postar fotos nas redes sociais", "Ignorar mensagens de familiares", "Desativar microfones e câmeras"],
-                correct: 0,
-                explanation: "Muito bem! Estabelecer códigos ou perguntas que só familiares reais saibam é uma defesa eficaz contra deepfakes, pois a IA não tem acesso a essas informações pessoais específicas do contexto familiar."
-            },
-            {
-                id: 18,
-                question: "Como melhorar a precisão de uma IA para identificar objetos em imagens?",
-                options: ["Treinar apenas com alta resolução", "Focar apenas nas cores dos objetos", "Evitar imagens em posições incomuns", "Aumentar exemplos com variações de ângulo e iluminação", "Treinar com único tipo de objeto"],
-                correct: 3,
-                explanation: "Perfeito! Diversidade no treinamento é fundamental. Incluir variações de ângulo, iluminação, qualidade e contexto torna a IA mais robusta e precisa em diferentes situações reais."
-            },
-            {
-                id: 19,
-                question: "Quais afirmações tratam de riscos do uso de IA para manipulação e fake news? I-Melhora comunicação II-Gera informações falsas III-Melhora marketing IV-Aumenta precisão maquiando notícia falsa",
-                options: ["I e II", "II e IV", "III e IV", "I, II e IV", "II e III"],
-                correct: 1,
-                explanation: "Correto! II e IV são riscos reais: IA pode gerar e disseminar fake news (II) e dar aparência de credibilidade a informações falsas (IV), maquiando-as com camadas de credibilidade. I e III são usos positivos."
-            },
-            {
-                id: 20,
-                question: "Sobre o caso de reconhecimento facial que deteve inocente, quais são desafios éticos? I-Falta de diversidade nos dados II-Opinião dos programadores III-Ausência de políticas IV-Incapacidade com jovens",
-                options: ["I, apenas", "II, apenas", "Todas", "I e IV", "I e III"],
-                correct: 4,
-                explanation: "Excelente análise ética! I (viés nos dados de treinamento) e III (falta de regulamentação adequada para uso em espaços públicos) são desafios reais mencionados no caso. Mostra como IA pode ser discriminatória sem supervisão adequada."
-            }
-        ];
-
-        let currentQuestion = 0;
-        let score = 0;
-        let userAnswers = [];
-
-        const feedbackMessages = {
-            correct: [
-                "🎉 Incrível! Você acertou!",
-                "👏 Parabéns! Resposta correta!",
-                "⭐ Excelente! Você está arrasando!",
-                "🚀 Fantástico! Continue assim!",
-                "💡 Brilhante! Acertou em cheio!"
-            ],
-            incorrect: [
-                "😊 Ops! Não foi dessa vez, mas você está aprendendo!",
-                "💪 Quase lá! Continue tentando!",
-                "🌟 Não desanime! Cada erro é um aprendizado!",
-                "📚 Essa foi difícil! Veja a explicação!",
-                "🎯 Quase! Da próxima você acerta!"
-            ]
-        };
-
-        function startQuiz() {
-            currentQuestion = 0;
-            score = 0;
-            userAnswers = [];
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const q = questions[currentQuestion];
-            const progress = ((currentQuestion) / questions.length) * 100;
-            
-            const html = `
-                <div class="card question-card">
-                    <div class="card-body">
-                        <div class="mb-3">
-                            <div class="d-flex justify-content-between align-items-center mb-2">
-                                <span class="badge bg-primary">Questão ${currentQuestion + 1} de ${questions.length}</span>
-                                <span class="text-muted"><i class="fas fa-star"></i> ${score} pontos</span>
-                            </div>
-                            <div class="progress">
-                                <div class="progress-bar bg-success" style="width: ${progress}%"></div>
-                            </div>
-                        </div>
-                        
-                        <h4 class="card-title mb-4">${q.question}</h4>
-                        
-                        <div id="options">
-                            ${q.options.map((opt, idx) => `
-                                <button class="btn option-btn w-100" onclick="selectAnswer(${idx})">
-                                    <strong>${String.fromCharCode(65 + idx)})</strong> ${opt}
-                                </button>
-                            `).join('')}
-                        </div>
-                        
-                        <div id="feedback"></div>
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('quizContent').innerHTML = html;
-        }
-
-        function selectAnswer(selectedIdx) {
-            const q = questions[currentQuestion];
-            const isCorrect = selectedIdx === q.correct;
-            
-            if (isCorrect) {
-                score++;
-            }
-            
-            userAnswers.push({
-                question: currentQuestion,
-                selected: selectedIdx,
-                correct: q.correct,
-                isCorrect: isCorrect
-            });
-            
-            const buttons = document.querySelectorAll('.option-btn');
-            buttons.forEach((btn, idx) => {
-                btn.disabled = true;
-                if (idx === q.correct) {
-                    btn.classList.add('correct');
-                } else if (idx === selectedIdx && !isCorrect) {
-                    btn.classList.add('incorrect');
-                }
-            });
-            
-            const feedbackMsg = isCorrect 
-                ? feedbackMessages.correct[Math.floor(Math.random() * feedbackMessages.correct.length)]
-                : feedbackMessages.incorrect[Math.floor(Math.random() * feedbackMessages.incorrect.length)];
-            
-            const feedbackColor = isCorrect ? 'alert-success' : 'alert-warning';
-            
-            const feedbackHtml = `
-                <div class="feedback alert ${feedbackColor}">
-                    <h5>${feedbackMsg}</h5>
-                    <p class="mb-2"><strong>Explicação:</strong> ${q.explanation}</p>
-                    <button class="btn btn-custom ${isCorrect ? 'btn-success' : 'btn-primary'} mt-2" onclick="nextQuestion()">
-                        ${currentQuestion < questions.length - 1 ? 'Próxima Questão' : 'Ver Resultado'} 
-                        <i class="fas fa-arrow-right ms-2"></i>
-                    </button>
-                </div>
-            `;
-            
-            document.getElementById('feedback').innerHTML = feedbackHtml;
-        }
-
-        function nextQuestion() {
-            currentQuestion++;
-            if (currentQuestion < questions.length) {
-                showQuestion();
-            } else {
-                showResults();
-            }
-        }
-
-        function showResults() {
-            const percentage = (score / questions.length) * 100;
-            let message, emoji;
-            
-            if (percentage >= 90) {
-                message = "Extraordinário! Você é um expert em IA! 🏆";
-                emoji = "🌟";
-            } else if (percentage >= 70) {
-                message = "Muito bem! Você tem ótimo conhecimento sobre IA! 🎓";
-                emoji = "🎉";
-            } else if (percentage >= 50) {
-                message = "Bom trabalho! Continue estudando IA! 📚";
-                emoji = "👍";
-            } else {
-                message = "Continue praticando! A IA é fascinante! 💪";
-                emoji = "🌱";
-            }
-            
-            const html = `
-                <div class="card">
-                    <div class="card-body score-card">
-                        <h2 class="mb-4">${emoji} Resultado Final ${emoji}</h2>
-                        <div class="score-number mb-3">${score}/${questions.length}</div>
-                        <h4 class="mb-4">${percentage.toFixed(0)}% de acertos</h4>
-                        <p class="lead mb-4">${message}</p>
-                        
-                        <div class="d-grid gap-2 col-md-6 mx-auto">
-                            <button class="btn btn-light btn-lg btn-custom" onclick="startQuiz()">
-                                <i class="fas fa-redo me-2"></i> Refazer Quiz
-                            </button>
-                            <button class="btn btn-outline-light btn-lg btn-custom" onclick="document.getElementById('study-tab').click()">
-                                <i class="fas fa-book me-2"></i> Revisar Conteúdo
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="card mt-3">
-                    <div class="card-body">
-                        <h4 class="mb-3"><i class="fas fa-clipboard-list"></i> Revisão das Questões</h4>
-                        ${userAnswers.map((ans, idx) => {
-                            const q = questions[ans.question];
-                            return `
-                                <div class="mb-3 p-3 border rounded ${ans.isCorrect ? 'border-success bg-light' : 'border-danger bg-light'}">
-                                    <div class="d-flex justify-content-between align-items-start mb-2">
-                                        <strong>Questão ${idx + 1}</strong>
-                                        ${ans.isCorrect 
-                                            ? '<span class="badge bg-success">Correta ✓</span>' 
-                                            : '<span class="badge bg-danger">Incorreta ✗</span>'}
-                                    </div>
-                                    <p class="mb-2 small text-dark">${q.question}</p>
-                                    <div class="small">
-                                        <div class="text-${ans.isCorrect ? 'success' : 'danger'} fw-bold">
-                                            <strong>Sua resposta:</strong> ${String.fromCharCode(65 + ans.selected)}) ${q.options[ans.selected]}
-                                        </div>
-                                        ${!ans.isCorrect ? `
-                                            <div class="text-success mt-1 fw-bold">
-                                                <strong>Resposta correta:</strong> ${String.fromCharCode(65 + ans.correct)}) ${q.options[ans.correct]}
-                                            </div>
-                                        ` : ''}
-                                        <div class="mt-2 text-muted">
-                                            <small><strong>💡 Explicação:</strong> ${q.explanation}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            `;
-                        }).join('')}
-                    </div>
-                </div>
-            `;
-            
-            document.getElementById('quizContent').innerHTML = html;
-        }
-
-        document.getElementById('quiz-tab').addEventListener('shown.bs.tab', function () {
-            if (currentQuestion === 0 && userAnswers.length === 0) {
-                startQuiz();
-            }
-        });
-    </script>
-</body>
-</html>
+const questions = [
+    {
+        id: 1,
+        question: "Algumas coisas acontecem devido à inteligência, outras acontecem por acaso. Qual das situações representa o acaso?",
+        options: ["Jogar xadrez", "Resolver um problema de matemática", "Lançar dados", "Programar um robô", "Escrever um texto"],
+        correct: 2,
+        explanation: "O lançamento de dados é um evento aleatório, sem influência de inteligência para determinar o resultado."
+    },
+    {
+        id: 2,
+        question: "Qual das situações representa o uso de Inteligência Artificial?",
+        options: ["Calculadora realizando contas", "Relógio marcando as horas", "Porta automática abrindo", "Sistema de reconhecimento facial", "Semáforo simples"],
+        correct: 3,
+        explanation: "Reconhecimento facial exige aprendizado de padrões visuais. Os outros exemplos são automação simples."
+    },
+    {
+        id: 3,
+        question: "Qual alternativa representa evolução natural, sem intervenção humana?",
+        options: ["Cachorro doméstico", "Trigo agrícola", "Borboleta selvagem", "Cavalo de corrida", "Rosa híbrida"],
+        correct: 2,
+        explanation: "Borboletas selvagens evoluíram por seleção natural; as demais passaram por seleção artificial humana."
+    },
+    {
+        id: 4,
+        question: "Em ordem crescente de número de lados: triângulo, quadrado, pentágono e hexágono. Qual é a sequência correta?",
+        options: ["A, C, E, B", "C, A, B, E", "A, C, E, B", "B, E, C, A", "C, B, A, E"],
+        correct: 0,
+        explanation: "Triângulo (3), Quadrado (4), Pentágono (5), Hexágono (6)."
+    },
+    {
+        id: 5,
+        question: "Uma IA analisa formas coloridas. Em qual alternativa aparece variação de tonalidade da mesma cor (gradiente)?",
+        options: ["Todas com cor sólida", "Somente uma com gradiente", "Nenhuma apresenta gradiente", "Há variação de tonalidade em apenas 1 delas", "Todas possuem gradiente"],
+        correct: 3,
+        explanation: "A característica distinta é a variação de claridade da cor, uma pista usada em reconhecimento visual."
+    },
+    {
+        id: 6,
+        question: "Em: 3, 5, 7, 9, 11, 13, 15, ?, 19 — qual número falta?",
+        options: ["11", "13", "15", "17", "19"],
+        correct: 3,
+        explanation: "Sequência de números ímpares consecutivos. Falta o número 17."
+    },
+    {
+        id: 7,
+        question: "Qual afirmação é correta sobre IA?",
+        options: [
+            "Toda automação é IA",
+            "IA e automação exigem o mesmo nível de inteligência",
+            "Automação simples não é IA",
+            "Somente processos manuais exigem inteligência",
+            "IA só existe quando há robôs"
+        ],
+        correct: 2,
+        explanation: "IA aprende e toma decisões. Automação apenas segue instruções fixas, sem aprendizado."
+    },
+    {
+        id: 8,
+        question: "Talos, da mitologia grega, era um autômato. O que isso tem em comum com IA moderna?",
+        options: [
+            "Aprendia com experiência",
+            "Era programado para tarefas específicas",
+            "Tinha emoções reais",
+            "Criava outros autômatos",
+            "Podia decidir como um humano"
+        ],
+        correct: 1,
+        explanation: "Talos executava tarefas pré-programadas, semelhante a sistemas artificiais sem consciência."
+    },
+    {
+        id: 9,
+        question: "Em um cubo 3x3x3 feito por 27 cubinhos, quantos cubinhos ficam totalmente escondidos dentro da estrutura?",
+        options: ["1", "2", "3", "4", "5"],
+        correct: 0,
+        explanation: "Somente o cubo central não possui faces expostas — apenas 1 é totalmente interno."
+    },
+    {
+        id: 10,
+        question: "Qual das palavras NÃO pode ser formada em um grafo se só é permitido seguir o sentido das setas?",
+        options: ["dososo", "papapososo", "de", "papapapos", "dosososo"],
+        correct: 3,
+        explanation: "Essa sequência exige um caminho que não existe no grafo, quebrando a direção das setas."
+    },
+    {
+        id: 11,
+        question: "Sobre algoritmos DFS (profundidade) e BFS (largura), qual classificação está correta?",
+        options: [
+            "I-BFS, II-DFS, III-BFS",
+            "I-DFS, II-BFS, III-DFS",
+            "I-DFS, II-DFS, III-BFS",
+            "I-BFS, II-BFS, III-DFS",
+            "Todas são DFS"
+        ],
+        correct: 0,
+        explanation: "BFS percorre vizinhos primeiro; DFS aprofunda em um caminho antes de voltar."
+    },
+    {
+        id: 12,
+        question: "Bebê aprende 'papai' com dados limitados. O que está correto? I-Fez uma associação possível II-IA reconheceria rostos III-O erro ocorre pela falta de exemplos",
+        options: ["I e III", "I e II", "Nenhuma", "Apenas I", "II e III"],
+        correct: 0,
+        explanation: "O bebê generalizou com poucas informações. Exatamente como IA mal treinada."
+    },
+    {
+        id: 13,
+        question: "Um robô parte de F9 para o sul. Frente 3 blocos, direita 2, ré 5, esquerda 1. Qual posição final?",
+        options: ["H2", "I5", "I8", "J4", "G3"],
+        correct: 1,
+        explanation: "Após seguir os deslocamentos no plano, o robô finaliza em I5."
+    },
+    {
+        id: 14,
+        question: "Ordenando 'cdab' com trocas de pares adjacentes (Bubble Sort), qual sequência completa?",
+        options: [
+            "cdab → cadb → acdb → acbd → abcd",
+            "cdab → dcba → badc → abcd",
+            "cdab → acdb → abcd",
+            "cdab → cadb → acdb → abcd",
+            "cdab → adcb → abcd"
+        ],
+        correct: 0,
+        explanation: "Cada troca envolve vizinhos e reinício até ordenar tudo."
+    },
+    {
+        id: 15,
+        question: "Qual é o ponto central do argumento do Quarto Chinês de Searle?",
+        options: [
+            "Máquinas podem sentir emoções",
+            "Seguir regras não garante compreensão real",
+            "Todo programa entende linguagem",
+            "Computadores são conscientes",
+            "Linguagem só existe com fala"
+        ],
+        correct: 1,
+        explanation: "Searle defende que manipular símbolos não significa realmente entender significado."
+    }
+];
